@@ -1,0 +1,10 @@
+github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
+github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
+github.com/playmixer/corvid/logger v0.0.0-20240413054452-a7832d5de104 h1:JTLnkhvrd1Vs/bNAbYEkSEHp6JktX9nchO25cYFXJik=
+github.com/playmixer/corvid/logger v0.0.0-20240413054452-a7832d5de104/go.mod h1:mXIgRlppBx7p2Sf2ZLOq31jZAmgtIPFhuhml1AJQCA4=
+github.com/playmixer/telegram-bot-api v1.0.2 h1:BWB6A+u/v12gasPLjgk6A2VIRk9o35T/FyS6ElBaBak=
+github.com/playmixer/telegram-bot-api v1.0.2/go.mod h1:nSKy505rjQOXCb6rUWtYje0v9Y4/lSzjFvbrTKNViVk=
+github.com/playmixer/yandex v0.0.0-20240413153957-11a72b00d64c h1:qyfqmeSuD53PInLpi8K/MpMO6U99W0TJ2ByRKl2nGx0=
+github.com/playmixer/yandex v0.0.0-20240413153957-11a72b00d64c/go.mod h1:oVx+hyWS6cAC8PjUGVwhObiwxjDtmRtEPyeas+jdx5M=
+github.com/sashabaranov/go-openai v1.14.1 h1:jqfkdj8XHnBF84oi2aNtT8Ktp3EJ0MfuVjvcMkfI0LA=
+github.com/sashabaranov/go-openai v1.14.1/go.mod h1:lj5b/K+zjTSFxVLijLSTDZuP7adOgerWeFyZLUhAKRg=
