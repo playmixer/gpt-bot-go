@@ -6,5 +6,7 @@ github.com/playmixer/telegram-bot-api v1.0.2 h1:BWB6A+u/v12gasPLjgk6A2VIRk9o35T/
 github.com/playmixer/telegram-bot-api v1.0.2/go.mod h1:nSKy505rjQOXCb6rUWtYje0v9Y4/lSzjFvbrTKNViVk=
 github.com/playmixer/yandex v0.0.0-20240413153957-11a72b00d64c h1:qyfqmeSuD53PInLpi8K/MpMO6U99W0TJ2ByRKl2nGx0=
 github.com/playmixer/yandex v0.0.0-20240413153957-11a72b00d64c/go.mod h1:oVx+hyWS6cAC8PjUGVwhObiwxjDtmRtEPyeas+jdx5M=
+github.com/playmixer/yandex v0.0.0-20240414070930-1aecd25e82e9 h1:AreHLE21TH39lAQQoE/1p/jLjhLcwJHhyNe5k51R2ZY=
+github.com/playmixer/yandex v0.0.0-20240414070930-1aecd25e82e9/go.mod h1:oVx+hyWS6cAC8PjUGVwhObiwxjDtmRtEPyeas+jdx5M=
 github.com/sashabaranov/go-openai v1.14.1 h1:jqfkdj8XHnBF84oi2aNtT8Ktp3EJ0MfuVjvcMkfI0LA=
 github.com/sashabaranov/go-openai v1.14.1/go.mod h1:lj5b/K+zjTSFxVLijLSTDZuP7adOgerWeFyZLUhAKRg=

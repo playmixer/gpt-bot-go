@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"sync"
 	"time"
@@ -10,6 +11,10 @@ import (
 	"github.com/playmixer/corvid/logger"
 	tg "github.com/playmixer/telegram-bot-api"
 	ygpt "github.com/playmixer/yandex/GPT"
+)
+
+var (
+	CountStoreLastMessage = 10
 )
 
 type Store struct {
@@ -41,12 +46,18 @@ var (
 
 func init() {
 	log = logger.New("logs")
-
 	log.INFO("Init bot")
 
 	err := godotenv.Load()
 	if err != nil {
 		log.ERROR("Error loading .env file")
+	}
+
+	if os.Getenv("DEBUG") == "1" {
+		log.SetLevel(logger.DEBUG)
+		log.INFO("debug level")
+	} else {
+		log.SetLevel(logger.INFO)
 	}
 
 	gpt, err = ygpt.New(os.Getenv("YANDEX_API_KEY"), os.Getenv("YANDEX_FOLDER"))
@@ -77,14 +88,14 @@ func echo(update tg.UpdateResult, bot *tg.TelegramBot) {
 	bot.SendChatAction(msg.Result.Chat.Id, tg.TYPING)
 
 	messages := store.Get(update.Message.Chat.Id)
-	lastLen := max(len(messages)-19, 0)
+	lastLen := max(len(messages)-CountStoreLastMessage, 0)
 	message := ygpt.YandexGPTMessage{Role: ygpt.GPTRoleUser, Text: update.Message.Text}
 	store.Set(update.Message.Chat.Id, append(messages[lastLen:], message))
 
 	req := gpt.NewRequest()
 	messages = store.Get(update.Message.Chat.Id)
 	b, _ := json.Marshal(messages)
-	log.DEBUG(string(b))
+	log.DEBUG(fmt.Sprint(update.Message.Chat.Id), string(b))
 	req.AddMessages(messages)
 	req.CompletionOptions.Stream = true
 	req.CompletionOptions.MaxTokens = 1000
@@ -97,17 +108,28 @@ func echo(update tg.UpdateResult, bot *tg.TelegramBot) {
 	}
 
 	for r := range resp {
+		b, _ := json.Marshal(r)
+		log.DEBUG(fmt.Sprint(update.Message.Chat.Id), string(b))
 		var assistentMessage ygpt.YandexGPTMessage
-		for _, _resp := range r.Result.Alternatives {
-			if _resp.Message.Text != "" {
-				msg = bot.EditMessage(msg.Result.Chat.Id, msg.Result.MessageId, _resp.Message.Text)
-				if !msg.Ok {
-					log.WARN(msg.Description)
+		if r.StatusCode == 200 {
+			for _, _resp := range r.Result.Alternatives {
+				if _resp.Message.Text != "" {
+					msg = bot.EditMessage(msg.Result.Chat.Id, msg.Result.MessageId, _resp.Message.Text)
+					if !msg.Ok {
+						log.WARN(msg.Description)
+					}
 				}
+				assistentMessage = _resp.Message
 			}
-			assistentMessage = _resp.Message
+			store.Set(update.Message.Chat.Id, append(messages, assistentMessage))
 		}
-		store.Set(update.Message.Chat.Id, append(messages, assistentMessage))
+		if r.StatusCode != 200 {
+
+			msg = bot.EditMessage(msg.Result.Chat.Id, msg.Result.MessageId, fmt.Sprintf("Не удалось получить ответ, ошибка: %v %s %s", r.Error.HTTPCode, r.Error.HTTPStatus, r.Error.Message))
+			if !msg.Ok {
+				log.WARN(msg.Description)
+			}
+		}
 	}
 }
 
