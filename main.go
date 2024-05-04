@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"gpt-telegram-bot/storage"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -53,6 +55,10 @@ func init() {
 func main() {
 	log.INFO("Starting...")
 	ctx, cancel := context.WithCancel(context.Background())
+
+	if os.Getenv("TLS") == "0" {
+		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	}
 
 	livetime, _ := strconv.Atoi(os.Getenv("MSG_LIVE_TIME"))
 	countStoreMessage, _ := strconv.Atoi(os.Getenv("COUNT_STORE_MESSAGE"))
